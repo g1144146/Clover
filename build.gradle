@@ -1,0 +1,60 @@
+buildscript {
+    ext.kotlin_version = '1.1.2'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:+"
+        classpath "org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4"
+    }
+}
+apply plugin: 'kotlin'
+apply plugin: 'application'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+mainClassName = 'clover.MainKt'
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+junitPlatform {
+    // reportsDir file("build/test-results")
+    filters {
+        engines {
+            include 'spek'
+        }
+        includeClassNamePattern ".*Spec"
+    }
+    platformVersion "1.0.0-M4"
+}
+
+sourceSets {
+    main {
+        kotlin.srcDir 'src/main/kotlin'
+    }
+//    test {
+//        kotlin.srcDir 'src/test/kotlin'
+//         resources.srcDirs 'src/test/resources'
+//    }
+}
+
+dependencies {
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:+'
+    compile 'org.ow2.asm:asm:+'
+    testCompile 'org.jetbrains.spek:spek-api:1.1.1'
+    testCompile 'org.amshove.kluent:kluent:1.21'
+    testRuntime 'org.jetbrains.spek:spek-junit-platform-engine:1.1.1'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2'
+}
