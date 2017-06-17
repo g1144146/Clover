@@ -34,15 +34,16 @@ sourceSets {
     main {
         kotlin.srcDir 'src/main/kotlin'
     }
-//    test {
-//        kotlin.srcDir 'src/test/kotlin'
+    test {
+        kotlin.srcDir 'src/test/kotlin'
 //         resources.srcDirs 'src/test/resources'
-//    }
+    }
 }
 
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib:+'
     compile 'org.ow2.asm:asm:+'
+    compile 'org.ow2.asm:asm-tree:+'
     testCompile 'org.jetbrains.spek:spek-api:1.1.1'
     testCompile 'org.amshove.kluent:kluent:1.21'
     testRuntime 'org.jetbrains.spek:spek-junit-platform-engine:1.1.1'
